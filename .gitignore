@@ -19,3 +19,6 @@ part1_log.txt
 part2_log.txt
 verify_rerun.txt
 *.pkl
+
+# Report build artefacts (screenshots rendered from the notebook)
+PIC/
