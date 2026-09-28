@@ -1,7 +1,9 @@
 # References (IEEE numbered style)
 
-Entries [1]–[13] are transcribed from the reference list of the reproduced paper, so their
-details are exact. Entries [14]–[22] are standard works cited in support of the Part 2 design.
+Entries [1]-[13] are transcribed from the reference list of the reproduced paper, so their
+details are exact. Entries [14]-[22] support the Part 2 design and were each verified against
+Crossref, arXiv or the publisher's own record; a DOI is given for every one so a reader can check
+it independently.
 
 ---
 
@@ -51,31 +53,36 @@ Newcastle upon Tyne, U.K.: Newcastle Univ., 2014, doi: 10.17634/154300-19.
 Learning Research*, vol. 12, no. 85, pp. 2825–2830, 2011.
 
 [14] P. Viola and M. Jones, "Rapid object detection using a boosted cascade of simple features,"
-in *Proc. IEEE Conf. Computer Vision and Pattern Recognition (CVPR)*, 2001, pp. 511–518.
+in *Proc. IEEE Conf. Computer Vision and Pattern Recognition (CVPR)*, 2001, vol. 1,
+pp. I-511–I-518, doi: 10.1109/CVPR.2001.990517.
 
-[15] L. Breiman, "Random forests," *Machine Learning*, vol. 45, no. 1, pp. 5–32, 2001.
+[15] L. Breiman, "Random forests," *Machine Learning*, vol. 45, no. 1, pp. 5–32, 2001,
+doi: 10.1023/A:1010933404324.
 
 [16] J. H. Friedman, "Greedy function approximation: A gradient boosting machine," *The Annals of
-Statistics*, vol. 29, no. 5, pp. 1189–1232, 2001.
+Statistics*, vol. 29, no. 5, pp. 1189–1232, 2001, doi: 10.1214/aos/1013203451.
 
 [17] A. K. Menon, S. Jayasumana, A. S. Rawat, H. Jain, A. Veit, and S. Kumar, "Long-tail learning
-via logit adjustment," in *Proc. Int. Conf. Learning Representations (ICLR)*, 2021.
+via logit adjustment," in *Proc. Int. Conf. Learning Representations (ICLR)*, 2021. [Online].
+Available: https://arxiv.org/abs/2007.07314
 
 [18] G. E. Hinton, "Training products of experts by minimizing contrastive divergence," *Neural
-Computation*, vol. 14, no. 8, pp. 1771–1800, 2002.
+Computation*, vol. 14, no. 8, pp. 1771–1800, 2002, doi: 10.1162/089976602760128018.
 
 [19] L. I. Kuncheva and C. J. Whitaker, "Measures of diversity in classifier ensembles and their
-relationship with the ensemble accuracy," *Machine Learning*, vol. 51, no. 2, pp. 181–207, 2003.
+relationship with the ensemble accuracy," *Machine Learning*, vol. 51, no. 2, pp. 181–207, 2003,
+doi: 10.1023/A:1022859003006.
 
 [20] M. Sokolova and G. Lapalme, "A systematic analysis of performance measures for
-classification tasks," *Information Processing & Management*, vol. 45, no. 4, pp. 427–437, 2009.
+classification tasks," *Information Processing & Management*, vol. 45, no. 4, pp. 427–437, 2009,
+doi: 10.1016/j.ipm.2009.03.002.
 
 [21] T. Fawcett, "An introduction to ROC analysis," *Pattern Recognition Letters*, vol. 27, no. 8,
-pp. 861–874, 2006.
+pp. 861–874, 2006, doi: 10.1016/j.patrec.2005.10.010.
 
 [22] N. V. Chawla, K. W. Bowyer, L. O. Hall, and W. P. Kegelmeyer, "SMOTE: Synthetic minority
 over-sampling technique," *Journal of Artificial Intelligence Research*, vol. 16, pp. 321–357,
-2002.
+2002, doi: 10.1613/jair.953.
 
 ---
 
