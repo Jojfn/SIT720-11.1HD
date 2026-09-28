@@ -7,7 +7,7 @@ Reproduction of, and a proposed improvement on:
 > F. Montori, K. Liao, M. De Giosa, P. P. Jayaraman, L. Bononi, T. Sellis and D. Georgakopoulos,
 > "A Metadata-Assisted Cascading Ensemble Classification Framework for Automatic Annotation of
 > Open IoT Data," *IEEE Internet of Things Journal*, vol. 10, no. 15, pp. 13401–13413, Aug. 2023.
-> DOI: [10.1109/JIOT.2023.3262365](https://doi.org/10.1109/JIOT.2023.3262365)
+> DOI: [10.1109/JIOT.2023.3263213](https://doi.org/10.1109/JIOT.2023.3263213)
 
 **Part 1** reproduces the paper's MACE cascading ensemble on all three of its open IoT data sets.
 **Part 2** proposes **MACE-SF**, a soft-fusion imbalance-aware cascade that addresses three

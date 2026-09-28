@@ -8,7 +8,7 @@ details are exact. Entries [14]–[22] are standard works cited in support of th
 [1] F. Montori, K. Liao, M. De Giosa, P. P. Jayaraman, L. Bononi, T. Sellis, and
 D. Georgakopoulos, "A metadata-assisted cascading ensemble classification framework for automatic
 annotation of open IoT data," *IEEE Internet of Things Journal*, vol. 10, no. 15, pp. 13401–13413,
-Aug. 2023.
+Aug. 2023, doi: 10.1109/JIOT.2023.3263213.
 
 [2] F. Montori, K. Liao, P. P. Jayaraman, L. Bononi, T. Sellis, and D. Georgakopoulos,
 "Classification and annotation of open Internet of Things datastreams," in *Proc. Int. Conf. Web
