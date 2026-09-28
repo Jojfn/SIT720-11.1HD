@@ -1,0 +1,21 @@
+# Python
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+
+# Copyrighted material - not mine to redistribute
+HD Task Papers/
+SIT720-11.1HD.pdf
+*paper2.txt
+
+# The authors' own source code is not redistributed here: its licence is unstated.
+# The README links to their repository instead. Their DATA is included, because the
+# task requires a dataset for reproduction and the paper releases it publicly.
+ref/
+
+# Local logs and intermediate pickles
+*.log
+part1_log.txt
+part2_log.txt
+verify_rerun.txt
+*.pkl
