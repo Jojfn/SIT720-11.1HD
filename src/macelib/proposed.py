@@ -8,12 +8,12 @@ Three limitations of MACE are addressed, each evidenced by the Part 1 reproducti
    cascade there scores below the classifier it ends on.
 
 2. Filtering destroys the probability distribution. The reproduction measures a macro
-   one-vs-rest AUC of 0.879 for MACE on ThingSpeak against 0.962 for soft voting: MACE
+   one-vs-rest AUC of 0.924 for MACE on ThingSpeak against 0.962 for soft voting: MACE
    makes good top-1 decisions but the scores behind them are no longer usable for
    ranking, thresholding or abstention, which an annotation service needs.
 
 3. The heuristics optimise accuracy only. The authors state F1 is "a side-effect".
-   ThingSpeak carries 21 classes in a 100:1 imbalance, and the reproduction shows tree
+   ThingSpeak carries 21 classes in a 108:1 imbalance, and the reproduction shows tree
    classifiers reaching 0.71 accuracy at 0.43 macro F1 - the rare sensor types that most
    need automatic annotation are exactly the ones being missed.
 
