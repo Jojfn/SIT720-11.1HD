@@ -22,3 +22,6 @@ verify_rerun.txt
 
 # Report build artefacts (screenshots rendered from the notebook)
 PIC/
+
+# The 6-minute presentation recording: 74 MB, and already hosted on YouTube
+*.mp4

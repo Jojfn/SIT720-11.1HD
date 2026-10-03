@@ -37,7 +37,8 @@ import numpy as np
 from sklearn.metrics import f1_score
 from sklearn.model_selection import StratifiedKFold
 
-from .mace import evaluate, out_of_fold_proba
+from .mace import (dominating_selection, evaluate, out_of_fold_proba,
+                   top_accuracy_curve)
 
 # eps = 0 recovers MACE's hard filter; keep = 1.0 removes filtering entirely, so both
 # the original behaviour and the no-cascade limit sit inside the search space and the
@@ -52,6 +53,20 @@ KEEP_GRID = (0.25, 0.4, 0.6, 1.0)
 # Leaving the rule to cross-validation lets one method cover both regimes, and makes
 # soft voting itself a reachable special case (mode="lin", eps=1, gamma=1).
 MODE_GRID = ("log", "lin")
+
+# The factorial study crosses what the search maximises with how the gate behaves, so
+# the share of the gain belonging to each can be read off separately. "none" is the
+# no-cascade limit the leave-one-out ablation found competitive, promoted here to a
+# column of its own and retuned on its own terms rather than inheriting eps and keep
+# from the winning configuration.
+OBJECTIVES = ("accuracy", "macro F1")
+GATES = {
+    "hard (eps = 0)":   ((0.0,), tuple(k for k in KEEP_GRID if k < 1.0)),
+    "soft (eps tuned)": (tuple(e for e in EPS_GRID if e > 0),
+                         tuple(k for k in KEEP_GRID if k < 1.0)),
+    "none (keep = 1)":  ((0.0,), (1.0,)),
+}
+FACTORIAL_STAGES = 2
 
 
 def macro_f1_curve(proba: np.ndarray, y_true: np.ndarray, classes: np.ndarray) -> np.ndarray:
@@ -163,15 +178,26 @@ class MACESoftFusion:
                 keep.append(i)
         self.selected_ = keep or names
 
+        # the same rule run on the paper's accuracy curve, so the factorial study can
+        # vary the objective at the selection step and not only at the tuning step
+        self.curves_acc_ = {n: top_accuracy_curve(p, y, self.classes_)
+                            for n, p in self.oof_.items()}
+        self.selected_acc_ = dominating_selection(self.curves_acc_)
+
         self.fitted_ = {n: f().fit(X, y) for n, f in self.pool.items()}
         self.best_ = self._search()
         return self
 
-    def _cv_macro_f1(self, order, eps, gamma, keep, tau, mode) -> float:
+    def _cv_score(self, order, eps, gamma, keep, tau, mode, objective="macro F1") -> float:
         belief = soft_cascade([self.oof_[n] for n in order], eps, gamma, keep, tau,
                               self.priors_, mode)
         pred = self.classes_[belief.argmax(axis=1)]
+        if objective == "accuracy":
+            return float((pred == self._y).mean())
         return f1_score(self._y, pred, average="macro", zero_division=0)
+
+    def _cv_macro_f1(self, order, eps, gamma, keep, tau, mode) -> float:
+        return self._cv_score(order, eps, gamma, keep, tau, mode, "macro F1")
 
     def _search(self) -> SFResult:
         """Tune the ordering and the four parameters on cross-validated macro F1."""
@@ -212,3 +238,43 @@ class MACESoftFusion:
             "  without filtering at all (keep=1)": SFResult(b.order, b.eps, b.gamma, 1.0, b.tau, b.mode, 0),
         }
         return {name: self.score(X, y, r) for name, r in variants.items()}
+
+    def _search_cell(self, objective, eps_grid, keep_grid, pool) -> SFResult:
+        """Tune everything else inside one cell of the factorial."""
+        best = None
+        orders = [list(o) for o in permutations(pool, FACTORIAL_STAGES)]
+        for order in orders:
+            for eps in eps_grid:
+                for gamma in GAMMA_GRID:
+                    for keep in keep_grid:
+                        for tau in TAU_GRID:
+                            for mode in MODE_GRID:
+                                s = self._cv_score(order, eps, gamma, keep, tau, mode,
+                                                   objective)
+                                if best is None or s > best.cv_macro_f1:
+                                    best = SFResult(order, eps, gamma, keep, tau, mode, s)
+        return best
+
+    def factorial_study(self, X, y) -> dict:
+        """Cross the search objective with the gate, to separate the two contributions.
+
+        The leave-one-out ablation cannot say how much of MACE-SF's gain comes from
+        changing the objective and how much from changing the gate, because switching
+        one off leaves the other in place. Here both are varied together, so each
+        column is a like-for-like comparison at a fixed objective and each row at a
+        fixed gate.
+
+        The cascade is held at two stages throughout. That is what the unconstrained
+        search selects on all three data sets, so fixing it removes depth as a
+        confound and leaves the objective and the gate as the only things that move.
+        """
+        out = {}
+        for objective in OBJECTIVES:
+            pool = self.selected_ if objective == "macro F1" else self.selected_acc_
+            if len(pool) < FACTORIAL_STAGES:                  # too few members to pair
+                pool = list(self.oof_)
+            for gate, (eps_grid, keep_grid) in GATES.items():
+                r = self._search_cell(objective, eps_grid, keep_grid, pool)
+                out[(objective, gate)] = {**self.score(X, y, r),
+                                          "cv_score": r.cv_macro_f1, "cfg": r.describe()}
+        return out
